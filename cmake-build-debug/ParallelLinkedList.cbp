@@ -90,6 +90,12 @@
 		<Unit filename="/home/tharsanan/CLionProjects/ParallelLinkedList/LinkedListOneMutex.h">
 			<Option target="ParallelLinkedList"/>
 		</Unit>
+		<Unit filename="/home/tharsanan/CLionProjects/ParallelLinkedList/LinkedListReadWriteImproved.cpp">
+			<Option target="ParallelLinkedList"/>
+		</Unit>
+		<Unit filename="/home/tharsanan/CLionProjects/ParallelLinkedList/LinkedListReadWriteImproved.h">
+			<Option target="ParallelLinkedList"/>
+		</Unit>
 		<Unit filename="/home/tharsanan/CLionProjects/ParallelLinkedList/LinkedListReadWriteLock.cpp">
 			<Option target="ParallelLinkedList"/>
 		</Unit>

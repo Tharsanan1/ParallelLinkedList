@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/ParallelLinkedList.dir/Node.cpp.o"
   "CMakeFiles/ParallelLinkedList.dir/LinkedListOneMutex.cpp.o"
   "CMakeFiles/ParallelLinkedList.dir/LinkedListReadWriteLock.cpp.o"
+  "CMakeFiles/ParallelLinkedList.dir/LinkedListReadWriteImproved.cpp.o"
   "ParallelLinkedList.pdb"
   "ParallelLinkedList"
 )

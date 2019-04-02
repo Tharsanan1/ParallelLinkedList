@@ -1,32 +1,37 @@
 //
-// Created by tharsanan on 3/30/19.
+// Created by tharsanan on 4/2/19.
 //
 
-#include "LinkedListReadWriteLock.h"
+#include "LinkedListReadWriteImproved.h"
 
 #include <cstdlib>
 #include <pthread.h>
 #include <iostream>
 #include <thread>
 
-LinkedListReadWriteLock::LinkedListReadWriteLock(){
+LinkedListReadWriteImproved::LinkedListReadWriteImproved(){
     lockRead = PTHREAD_MUTEX_INITIALIZER;
     lockWrite = PTHREAD_MUTEX_INITIALIZER;
     lockForReduceTimes = PTHREAD_MUTEX_INITIALIZER;
     isReading = 0;
+    lockedValue = 0;
 }
 
 
 
-void LinkedListReadWriteLock::setLinkedList(LinkedListSerial linkedListSerial1){
+void LinkedListReadWriteImproved::setLinkedList(LinkedListSerial linkedListSerial1){
     linkedListSerial = linkedListSerial1;
 }
 
-int LinkedListReadWriteLock::Member(int value){
+int LinkedListReadWriteImproved::Member(int value){
+
     pthread_mutex_lock(&lockRead);
+    if(lockedValue < value) {
+        lockedValue = value;
+    }
     isReading++;
     if(isReading == 1){
-        pthread_mutex_lock(&lockWrite);
+        pthread_mutex_lock(&lockWrite);         // it will also make sure no read when one thread writes.
     }
     pthread_mutex_unlock(&lockRead);
     pthread_t thId = pthread_self();
@@ -39,7 +44,7 @@ int LinkedListReadWriteLock::Member(int value){
     }
     pthread_mutex_unlock(&lockRead);
 }
-int LinkedListReadWriteLock::Insert(int value){
+int LinkedListReadWriteImproved::Insert(int value){
 //    pthread_mutex_lock(&lockRead);
 //    if(isReading != 0){
 //        pthread_mutex_unlock(&lockRead);
@@ -58,6 +63,10 @@ int LinkedListReadWriteLock::Insert(int value){
 //        linkedListSerial.Insert(value);
 //        pthread_mutex_unlock(&lockRead);
 //    }
+    pthread_mutex_lock(&lockRead);
+    if(lockedValue < value){
+
+    }
     pthread_mutex_lock(&lockWrite);
     linkedListSerial.Insert(value);
     pthread_mutex_unlock(&lockWrite);
@@ -67,7 +76,7 @@ int LinkedListReadWriteLock::Insert(int value){
 
 
 }
-int LinkedListReadWriteLock::Delete(int value){
+int LinkedListReadWriteImproved::Delete(int value){
 //    pthread_mutex_lock(&lockRead);
 //    if(isReading == 0) {
 //        linkedListSerial.Delete(value);
@@ -83,8 +92,8 @@ int LinkedListReadWriteLock::Delete(int value){
 
 }
 
-void* LinkedListReadWriteLock::threadFunc(void *list){
-    LinkedListReadWriteLock* linkedListReadWriteLock = (LinkedListReadWriteLock* )list;
+void* LinkedListReadWriteImproved::threadFunc(void *list){
+    LinkedListReadWriteImproved* linkedListReadWriteLock = (LinkedListReadWriteImproved* )list;
     while (true) {
         int toInsert = 0 + (rand() % (65535 - 0 + 1));
 
@@ -97,10 +106,10 @@ void* LinkedListReadWriteLock::threadFunc(void *list){
             pthread_mutex_unlock(&linkedListReadWriteLock->lockForReduceTimes);
         }
 //        else{
-            pthread_mutex_lock(&linkedListReadWriteLock->lockForReduceTimes);
-            linkedListReadWriteLock->opTimesMemOnly = linkedListReadWriteLock->opTimesMemOnly - 1;
-            pthread_mutex_unlock(&linkedListReadWriteLock->lockForReduceTimes);
-            linkedListReadWriteLock->Member(toInsert);
+        pthread_mutex_lock(&linkedListReadWriteLock->lockForReduceTimes);
+        linkedListReadWriteLock->opTimesMemOnly = linkedListReadWriteLock->opTimesMemOnly - 1;
+        pthread_mutex_unlock(&linkedListReadWriteLock->lockForReduceTimes);
+        linkedListReadWriteLock->Member(toInsert);
 //        }
 
         if(linkedListReadWriteLock->opTimesMemInsDel <= 0  && linkedListReadWriteLock->opTimesMemOnly <= 0){
@@ -110,14 +119,14 @@ void* LinkedListReadWriteLock::threadFunc(void *list){
     pthread_exit(NULL);
 }
 
-void LinkedListReadWriteLock::createThreads(){
+void LinkedListReadWriteImproved::createThreads(){
     srand(14);
     auto start =  std::chrono::high_resolution_clock::now();
     int i = 0;
     int err;
     while(i < 4)
     {
-        err = pthread_create(&(tid[i]), NULL, &LinkedListReadWriteLock::threadFunc, this);
+        err = pthread_create(&(tid[i]), NULL, &LinkedListReadWriteImproved::threadFunc, this);
         if (err != 0)
             printf("\nThread can't be created :[%s]", strerror(err));
         i++;
@@ -131,11 +140,11 @@ void LinkedListReadWriteLock::createThreads(){
     std::cout << duration.count() << "\n";
 }
 
-void LinkedListReadWriteLock::printAll() {
+void LinkedListReadWriteImproved::printAll() {
     linkedListSerial.printAll();
 }
 
-void LinkedListReadWriteLock::setTimesNFrac(int times, int mem, int ins, int del){
+void LinkedListReadWriteImproved::setTimesNFrac(int times, int mem, int ins, int del){
     memberFrac = mem;
     insertFrac = ins;
     deleteFrac = del;

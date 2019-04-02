@@ -17,6 +17,8 @@ public:
     bool Delete(int value);
     void printAll();
     LinkedListSerial();
+    void executeOperations(int times, int mem, int ins, int del);
+    int count;
 };
 
 

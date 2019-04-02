@@ -18,12 +18,13 @@ private:
     pthread_mutex_t lockRead;
     pthread_mutex_t lockWrite;
     pthread_mutex_t lockForReduceTimes;
-    LinkedListSerial linkedListSerial;
     pthread_t tid[4];
     int memberFrac, insertFrac, deleteFrac, opTimes;
     int opTimesMemInsDel;
     int opTimesMemOnly;
+    int isReading;
 public:
+    LinkedListSerial linkedListSerial;
     LinkedListReadWriteLock();
     int Member(int value);
     int Insert(int value);

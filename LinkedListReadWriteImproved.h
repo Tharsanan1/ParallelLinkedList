@@ -1,9 +1,9 @@
 //
-// Created by tharsanan on 3/30/19.
+// Created by tharsanan on 4/2/19.
 //
 
-#ifndef PARALLELLINKEDLIST_LINKEDLISTONEMUTEX_H
-#define PARALLELLINKEDLIST_LINKEDLISTONEMUTEX_H
+#ifndef PARALLELLINKEDLIST_LINKEDLISTREADWRITEIMPROVED_H
+#define PARALLELLINKEDLIST_LINKEDLISTREADWRITEIMPROVED_H
 
 
 #include<stdio.h>
@@ -13,17 +13,19 @@
 #include<unistd.h>
 #include "LinkedListSerial.h"
 
-class LinkedListOneMutex {
+class LinkedListReadWriteImproved {
 private:
-    pthread_mutex_t lock;
+    pthread_mutex_t lockRead;
+    pthread_mutex_t lockWrite;
     pthread_mutex_t lockForReduceTimes;
     pthread_t tid[4];
     int memberFrac, insertFrac, deleteFrac, opTimes;
     int opTimesMemInsDel;
     int opTimesMemOnly;
+    int isReading;
 public:
     LinkedListSerial linkedListSerial;
-    LinkedListOneMutex();
+    LinkedListReadWriteImproved();
     int Member(int value);
     int Insert(int value);
     int Delete(int value);
@@ -32,6 +34,9 @@ public:
     void setLinkedList(LinkedListSerial linkedListSerial1);
     void printAll();
     void setTimesNFrac(int times, int mem, int ins, int del);
+    int lockedValue;
+    int maxValue;
+    bool type;
 };
 
 

@@ -37,14 +37,20 @@ void* LinkedListOneMutex::threadFunc(void *list){
     while (true) {
         int toInsert = 0 + (rand() % (65535 - 0 + 1));
 
-        if (linkedListOneMutex->opTimesMemInsDel > 0 && !linkedListOneMutex->Member(toInsert)) {
+        if (linkedListOneMutex->opTimesMemInsDel > 0 /**&& !linkedListOneMutex->Member(toInsert)**/) {
             linkedListOneMutex->Insert(toInsert);
             linkedListOneMutex->Delete(toInsert);
             pthread_mutex_lock(&linkedListOneMutex->lockForReduceTimes);
             linkedListOneMutex->opTimesMemInsDel = linkedListOneMutex->opTimesMemInsDel - 1;
+            linkedListOneMutex->opTimesMemOnly = linkedListOneMutex->opTimesMemOnly - 1;
+            pthread_mutex_unlock(&linkedListOneMutex->lockForReduceTimes);
         }
-        linkedListOneMutex->opTimesMemOnly = linkedListOneMutex->opTimesMemOnly - 1;
-        pthread_mutex_unlock(&linkedListOneMutex->lockForReduceTimes);
+        else{
+            pthread_mutex_lock(&linkedListOneMutex->lockForReduceTimes);
+            linkedListOneMutex->opTimesMemOnly = linkedListOneMutex->opTimesMemOnly - 1;
+            pthread_mutex_unlock(&linkedListOneMutex->lockForReduceTimes);
+            linkedListOneMutex->Member(toInsert);
+        }
         if(linkedListOneMutex->opTimesMemInsDel <= 0  && linkedListOneMutex->opTimesMemOnly <= 0){
             break;
         }
