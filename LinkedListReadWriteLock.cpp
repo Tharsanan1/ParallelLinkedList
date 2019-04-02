@@ -29,8 +29,6 @@ int LinkedListReadWriteLock::Member(int value){
         pthread_mutex_lock(&lockWrite);
     }
     pthread_mutex_unlock(&lockRead);
-    pthread_t thId = pthread_self();
-//    std::cout << thId;
     linkedListSerial.Member(value);
     pthread_mutex_lock(&lockRead);
     isReading--;
@@ -59,7 +57,9 @@ int LinkedListReadWriteLock::Insert(int value){
 //        pthread_mutex_unlock(&lockRead);
 //    }
     pthread_mutex_lock(&lockWrite);
+    pthread_mutex_lock(&lockRead);
     linkedListSerial.Insert(value);
+    pthread_mutex_unlock(&lockRead);
     pthread_mutex_unlock(&lockWrite);
 
 
@@ -78,7 +78,9 @@ int LinkedListReadWriteLock::Delete(int value){
 //        return 0;
 //    }
     pthread_mutex_lock(&lockWrite);
+    pthread_mutex_lock(&lockRead);
     linkedListSerial.Delete(value);
+    pthread_mutex_unlock(&lockRead);
     pthread_mutex_unlock(&lockWrite);
 
 }
@@ -115,7 +117,7 @@ void LinkedListReadWriteLock::createThreads(){
     auto start =  std::chrono::high_resolution_clock::now();
     int i = 0;
     int err;
-    while(i < 4)
+    while(i < 1)
     {
         err = pthread_create(&(tid[i]), NULL, &LinkedListReadWriteLock::threadFunc, this);
         if (err != 0)
@@ -123,9 +125,9 @@ void LinkedListReadWriteLock::createThreads(){
         i++;
     }
     pthread_join(tid[0], NULL);
-    pthread_join(tid[1], NULL);
-    pthread_join(tid[2], NULL);
-    pthread_join(tid[3], NULL);
+//    pthread_join(tid[1], NULL);
+//    pthread_join(tid[2], NULL);
+//    pthread_join(tid[3], NULL);
     auto stop =  std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << duration.count() << "\n";

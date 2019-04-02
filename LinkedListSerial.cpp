@@ -85,9 +85,7 @@ void LinkedListSerial::executeOperations(int times, int mem, int ins, int del){
     int opTimesMemInsDel = ((opTimes * insertFrac)/(insertFrac + insertFrac + memberFrac));
     int opTimesMemOnly = opTimes - opTimesMemInsDel - opTimesMemInsDel;
     auto start =  std::chrono::high_resolution_clock::now();
-    int count = 0;
     while (true) {
-        count++;
         int toInsert = 0 + (rand() % (65535 - 0 + 1));
 
         if (opTimesMemInsDel > 0 /**&& !Member(toInsert)**/) {
@@ -104,5 +102,5 @@ void LinkedListSerial::executeOperations(int times, int mem, int ins, int del){
     }
     auto stop =  std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << duration.count() << "\n " << opTimesMemInsDel << " " << opTimesMemOnly  << "\n";
+    std::cout << duration.count() << "\n " ;
 }

@@ -150,33 +150,6 @@ LinkedListOneMutex.cpp.s:
 	$(MAKE) -f CMakeFiles/ParallelLinkedList.dir/build.make CMakeFiles/ParallelLinkedList.dir/LinkedListOneMutex.cpp.s
 .PHONY : LinkedListOneMutex.cpp.s
 
-LinkedListReadWriteImproved.o: LinkedListReadWriteImproved.cpp.o
-
-.PHONY : LinkedListReadWriteImproved.o
-
-# target to build an object file
-LinkedListReadWriteImproved.cpp.o:
-	$(MAKE) -f CMakeFiles/ParallelLinkedList.dir/build.make CMakeFiles/ParallelLinkedList.dir/LinkedListReadWriteImproved.cpp.o
-.PHONY : LinkedListReadWriteImproved.cpp.o
-
-LinkedListReadWriteImproved.i: LinkedListReadWriteImproved.cpp.i
-
-.PHONY : LinkedListReadWriteImproved.i
-
-# target to preprocess a source file
-LinkedListReadWriteImproved.cpp.i:
-	$(MAKE) -f CMakeFiles/ParallelLinkedList.dir/build.make CMakeFiles/ParallelLinkedList.dir/LinkedListReadWriteImproved.cpp.i
-.PHONY : LinkedListReadWriteImproved.cpp.i
-
-LinkedListReadWriteImproved.s: LinkedListReadWriteImproved.cpp.s
-
-.PHONY : LinkedListReadWriteImproved.s
-
-# target to generate assembly for a file
-LinkedListReadWriteImproved.cpp.s:
-	$(MAKE) -f CMakeFiles/ParallelLinkedList.dir/build.make CMakeFiles/ParallelLinkedList.dir/LinkedListReadWriteImproved.cpp.s
-.PHONY : LinkedListReadWriteImproved.cpp.s
-
 LinkedListReadWriteLock.o: LinkedListReadWriteLock.cpp.o
 
 .PHONY : LinkedListReadWriteLock.o
@@ -297,9 +270,6 @@ help:
 	@echo "... LinkedListOneMutex.o"
 	@echo "... LinkedListOneMutex.i"
 	@echo "... LinkedListOneMutex.s"
-	@echo "... LinkedListReadWriteImproved.o"
-	@echo "... LinkedListReadWriteImproved.i"
-	@echo "... LinkedListReadWriteImproved.s"
 	@echo "... LinkedListReadWriteLock.o"
 	@echo "... LinkedListReadWriteLock.i"
 	@echo "... LinkedListReadWriteLock.s"

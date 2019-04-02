@@ -42,15 +42,15 @@ void* LinkedListOneMutex::threadFunc(void *list){
             linkedListOneMutex->Delete(toInsert);
             pthread_mutex_lock(&linkedListOneMutex->lockForReduceTimes);
             linkedListOneMutex->opTimesMemInsDel = linkedListOneMutex->opTimesMemInsDel - 1;
-            linkedListOneMutex->opTimesMemOnly = linkedListOneMutex->opTimesMemOnly - 1;
+//            linkedListOneMutex->opTimesMemOnly = linkedListOneMutex->opTimesMemOnly - 1;
             pthread_mutex_unlock(&linkedListOneMutex->lockForReduceTimes);
         }
-        else{
+//        else{
             pthread_mutex_lock(&linkedListOneMutex->lockForReduceTimes);
             linkedListOneMutex->opTimesMemOnly = linkedListOneMutex->opTimesMemOnly - 1;
             pthread_mutex_unlock(&linkedListOneMutex->lockForReduceTimes);
             linkedListOneMutex->Member(toInsert);
-        }
+//        }
         if(linkedListOneMutex->opTimesMemInsDel <= 0  && linkedListOneMutex->opTimesMemOnly <= 0){
             break;
         }
@@ -63,7 +63,7 @@ void LinkedListOneMutex::createThreads(){
     auto start =  std::chrono::high_resolution_clock::now();
     int i = 0;
     int err;
-    while(i < 4)
+    while(i < 1)
     {
         err = pthread_create(&(tid[i]), NULL, &LinkedListOneMutex::threadFunc, this);
         if (err != 0)
@@ -71,9 +71,9 @@ void LinkedListOneMutex::createThreads(){
         i++;
     }
     pthread_join(tid[0], NULL);
-    pthread_join(tid[1], NULL);
-    pthread_join(tid[2], NULL);
-    pthread_join(tid[3], NULL);
+//    pthread_join(tid[1], NULL);
+//    pthread_join(tid[2], NULL);
+//    pthread_join(tid[3], NULL);
     auto stop =  std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << duration.count() << "\n";

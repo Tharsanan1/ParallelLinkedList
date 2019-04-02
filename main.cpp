@@ -23,19 +23,19 @@ int main() {
 
     LinkedListSerial* linkedListSerial2 = new LinkedListSerial();
     createLinkedList(1000,15,linkedListSerial2);
-    linkedListSerial->executeOperations(10000,900,50,50);
+    linkedListSerial2->executeOperations(10000,900,50,50);
 
     LinkedListOneMutex* linkedListOneMutex = new LinkedListOneMutex();
-    linkedListOneMutex->setLinkedList(*linkedListSerial1);
+    linkedListOneMutex->setLinkedList(*linkedListSerial);
     linkedListOneMutex->setTimesNFrac(10000,900,50,50);
     linkedListOneMutex->createThreads();
 
     LinkedListReadWriteLock* linkedListReadWriteLock = new LinkedListReadWriteLock();
-    linkedListReadWriteLock->setLinkedList(*linkedListSerial2);
+    linkedListReadWriteLock->setLinkedList(*linkedListSerial1);
     linkedListReadWriteLock->setTimesNFrac(10000,900,50,50);
     linkedListReadWriteLock->createThreads();
 
-    std::cout << linkedListSerial->count << " " << linkedListOneMutex->linkedListSerial.count << " " << linkedListReadWriteLock->linkedListSerial.count;
+    std::cout << linkedListSerial2->count << " " << linkedListOneMutex->linkedListSerial.count << " " << linkedListReadWriteLock->linkedListSerial.count;
 //    linkedListOneMutex->printAll();
 
     pthread_exit(NULL);
